@@ -1,4 +1,6 @@
-# diet_assistant_PIPR
+# Asystent diety
+
+## Projekt PIPR 2023Z
 
 
 
