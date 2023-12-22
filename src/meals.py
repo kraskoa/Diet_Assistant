@@ -1,6 +1,6 @@
 class Meal:
     """
-    Class representing a single meal taken from the API data
+    Class representing a single meal created based on the API data
     """
     def __init__(self, recipe_data):
         """
@@ -39,3 +39,9 @@ class Meal:
     @property
     def link(self):
         return self._link
+
+    def calculate_calories_per_portion(self):
+        return round(self.calories / self.portions, 2)
+
+    def calculate_calories_per_100g(self):
+        return round(self.calories / (self.weight / 100), 2)
