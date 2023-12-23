@@ -83,3 +83,10 @@ def test_calculate_nutrients_100g():
     assert nutrients["Fat"] == 0.91
     assert nutrients["Protein"] == 10.91
     assert nutrients["Sugars"] == 0
+
+
+def test_meal_str():
+    meal = Meal(mock_meals_list[0])
+    result = "The Chicken breast meal weighs 550 grams total"
+    result += " and has 252.5 calories per portion"
+    assert str(meal) == result
