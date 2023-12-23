@@ -64,7 +64,21 @@ class Meal:
         else:
             return round(self.calories / (self.weight / 100), 2)
 
-    def calculate_nutrients(self, scale: str):
+    def calculate_nutrients(self, scale: str) -> dict:
+        """
+        Function that calculates the meal's amount of calories
+
+        Args:
+            scale (str): specifies whether to calculate calories
+                         per portion of meal or per 100g
+
+        Raises:
+            ValueError: if scale is not a supported value
+
+        Returns:
+            dict: a dictionary with nutritional values of the product
+                  (name: quantity [in grams])
+        """
         scales = ("portion", "100g")
         data_sets = [
             self.nutrients["FAT"],
