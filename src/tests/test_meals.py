@@ -72,5 +72,14 @@ def test_calculate_calories_invalid():
 def test_calculate_nutrients_portion():
     meal = Meal(mock_meals_list[0])
     nutrients = meal.calculate_nutrients("portion")
-    assert nutrients["Fat"] == 5
-    assert nutrients["Protein"] == 60
+    assert nutrients["Fat"] == 2.5
+    assert nutrients["Protein"] == 30
+    assert nutrients["Sugars"] == 0
+
+
+def test_calculate_nutrients_100g():
+    meal = Meal(mock_meals_list[0])
+    nutrients = meal.calculate_nutrients("100g")
+    assert nutrients["Fat"] == 0.91
+    assert nutrients["Protein"] == 10.91
+    assert nutrients["Sugars"] == 0

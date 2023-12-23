@@ -65,21 +65,24 @@ class Meal:
             return round(self.calories / (self.weight / 100), 2)
 
     def calculate_nutrients(self, scale: str):
-        nutrients = {}
         scales = ("portion", "100g")
+        data_sets = [
+            self.nutrients["FAT"],
+            self.nutrients["CHOCDF"],
+            self.nutrients["PROCNT"],
+            self.nutrients["FIBTG"],
+            self.nutrients["SUGAR"],
+        ]
         if scale.lower() not in scales:
             msg = f"Cannot calculate nutrients per {scale}, "
             msg += "use 'portion' or '100g'"
             raise ValueError(msg)
         if scale == "portion":
-            fat_data = self.nutrients["FAT"]
-            carbs_data = self.nutrients["CHOCDF"]
-            protein_data = self.nutrients["PROCNT"]
-            fiber_data = self.nutrients["FIBTG"]
-            sugar_data = self.nutrients["SUGAR"]
-            nutrients[fat_data["label"]] = fat_data["quantity"]
-            nutrients[carbs_data["label"]] = carbs_data["quantity"]
-            nutrients[protein_data["label"]] = protein_data["quantity"]
-            nutrients[fiber_data["label"]] = fiber_data["quantity"]
-            nutrients[sugar_data["label"]] = sugar_data["quantity"]
-            return nutrients
+            div = self.portions
+        else:
+            div = self.weight / 100
+        nutrients = {
+            data_set["label"]: round(data_set["quantity"] / div, 2)
+            for data_set in data_sets
+        }
+        return nutrients
