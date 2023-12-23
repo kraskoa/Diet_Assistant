@@ -40,8 +40,46 @@ class Meal:
     def link(self):
         return self._link
 
-    def calculate_calories_per_portion(self):
-        return round(self.calories / self.portions, 2)
+    def calculate_calories(self, scale: str) -> float:
+        """
+        Function that calculates the meal's amount of calories
 
-    def calculate_calories_per_100g(self):
-        return round(self.calories / (self.weight / 100), 2)
+        Args:
+            scale (str): specifies whether to calculate calories
+                         per portion of meal or per 100g
+
+        Raises:
+            ValueError: if scale is not a supported value
+
+        Returns:
+            float: calculated amount of calories based on given scale
+        """
+        scales = ("portion", "100g")
+        if scale.lower() not in scales:
+            msg = f"Cannot calculate calories per {scale}, "
+            msg += "use 'portion' or '100g'"
+            raise ValueError(msg)
+        if scale == "portion":
+            return round(self.calories / self.portions, 2)
+        else:
+            return round(self.calories / (self.weight / 100), 2)
+
+    def calculate_nutrients(self, scale: str):
+        nutrients = {}
+        scales = ("portion", "100g")
+        if scale.lower() not in scales:
+            msg = f"Cannot calculate nutrients per {scale}, "
+            msg += "use 'portion' or '100g'"
+            raise ValueError(msg)
+        if scale == "portion":
+            fat_data = self.nutrients["FAT"]
+            carbs_data = self.nutrients["CHOCDF"]
+            protein_data = self.nutrients["PROCNT"]
+            fiber_data = self.nutrients["FIBTG"]
+            sugar_data = self.nutrients["SUGAR"]
+            nutrients[fat_data["label"]] = fat_data["quantity"]
+            nutrients[carbs_data["label"]] = carbs_data["quantity"]
+            nutrients[protein_data["label"]] = protein_data["quantity"]
+            nutrients[fiber_data["label"]] = fiber_data["quantity"]
+            nutrients[sugar_data["label"]] = sugar_data["quantity"]
+            return nutrients

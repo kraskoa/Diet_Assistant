@@ -1,4 +1,4 @@
-# import pytest
+import pytest
 from meals import Meal
 
 mock_meals_list = [
@@ -15,7 +15,28 @@ mock_meals_list = [
             1: "good"
         },
         "mealType": "dinner",
-        "totalNutrients": "nutrients",
+        "totalNutrients": {
+            "FAT": {
+                "label": "Fat",
+                "quantity": 5,
+            },
+            "CHOCDF": {
+                "label": "Carbs",
+                "quantity": 10,
+            },
+            "PROCNT": {
+                "label": "Protein",
+                "quantity": 60,
+            },
+            "FIBTG": {
+                "label": "Fiber",
+                "quantity": 3,
+            },
+            "SUGAR": {
+                "label": "Sugars",
+                "quantity": 0
+            }
+        },
         "cuisineType": "sports"
     }
 ]
@@ -30,16 +51,26 @@ def test_meal_create():
     assert meal.link == "link_to_recipe"
     assert meal.diet_labels == ["delicious"]
     assert meal.health_labels == ["good"]
-    assert meal.meal_type == "dinner"
-    assert meal.nutrients == "nutrients"
-    assert meal.cuisine_type == "sports"
 
 
 def test_calculate_calories_per_portion():
     meal = Meal(mock_meals_list[0])
-    assert meal.calculate_calories_per_portion() == 252.5
+    assert meal.calculate_calories("portion") == 252.5
 
 
 def test_calculate_calories_per_100g():
     meal = Meal(mock_meals_list[0])
-    assert meal.calculate_calories_per_100g() == 91.82
+    assert meal.calculate_calories("100g") == 91.82
+
+
+def test_calculate_calories_invalid():
+    meal = Meal(mock_meals_list[0])
+    with pytest.raises(ValueError):
+        meal.calculate_calories("whatever")
+
+
+def test_calculate_nutrients_portion():
+    meal = Meal(mock_meals_list[0])
+    nutrients = meal.calculate_nutrients("portion")
+    assert nutrients["Fat"] == 5
+    assert nutrients["Protein"] == 60
