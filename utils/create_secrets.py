@@ -7,6 +7,10 @@ secrets_path = root_path / "secrets.json"
 
 
 def check_if_secrets_exists():
+    """
+    Function that determines whether the user has a secrets.json file
+    and/or would like to create a new one
+    """
     if secrets_path.exists():
         print("We see that you've already got a secrets.json file!")
         answer = input("Would you like to create a new one? y/n: ")
@@ -22,6 +26,9 @@ def check_if_secrets_exists():
 
 
 def create_secrets():
+    """
+    Function that creates a new secrets.json file based on user input
+    """
     secrets_data = {"url": "adres"}
     msg = "Once you've created an account with Edamam and a Recipe Search API"
     msg += " application please keep the App Key and App ID handy"
