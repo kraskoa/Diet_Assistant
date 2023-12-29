@@ -1,4 +1,4 @@
-from days import Day
+from ..days import Day
 
 
 def test_day_create():

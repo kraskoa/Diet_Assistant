@@ -1,5 +1,5 @@
 import pytest
-from meals import Meal
+from ..meals import Meal
 
 mock_meals_list = [
     {
