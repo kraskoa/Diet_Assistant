@@ -29,7 +29,7 @@ def create_secrets():
     """
     Function that creates a new secrets.json file based on user input
     """
-    secrets_data = {"url": "adres"}
+    secrets_data = {"url": "https://api.edamam.com/api/recipes/v2?type=public&{query}&app_id={app_id}&app_key={app_key}&{diet}&{cuisineType}&{mealType}"}
     msg = "Once you've created an account with Edamam and a Recipe Search API"
     msg += " application please keep the App Key and App ID handy"
     print(msg)
