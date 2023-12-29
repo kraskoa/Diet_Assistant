@@ -1,7 +1,7 @@
 import json
 
 
-def load_secrets(path):
+def load_secrets(path: str) -> dict:
     """
     Function that reads data from secrets.json file
 

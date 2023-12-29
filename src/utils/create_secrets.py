@@ -34,14 +34,11 @@ def create_secrets():
     msg += " application please keep the App Key and App ID handy"
     print(msg)
 
-    app_key = input("Enter your App Key here: ")
     app_id = input("Enter your App ID here: ")
-    secrets_data["app_key"] = app_key
+    app_key = input("Enter your App Key here: ")
     secrets_data["app_id"] = app_id
+    secrets_data["app_key"] = app_key
 
     with open(secrets_path, "w") as secrets:
         json.dump(secrets_data, secrets, indent=4)
     print(f"Data has been written to {secrets_path}")
-
-
-check_if_secrets_exists()
