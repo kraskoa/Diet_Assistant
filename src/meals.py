@@ -19,6 +19,10 @@ class Meal:
         self.meal_type = recipe_data["mealType"]
         self.nutrients = recipe_data["totalNutrients"]
         self.cuisine_type = recipe_data["cuisineType"]
+        ingredients = []
+        for entry in recipe_data["ingredients"].values():
+            ingredients.append(entry["food"])
+        self.ingredients = ingredients
 
     @property
     def name(self):

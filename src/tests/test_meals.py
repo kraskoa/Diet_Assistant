@@ -37,7 +37,12 @@ mock_meals_list = [
                 "quantity": 0
             }
         },
-        "cuisineType": "sports"
+        "cuisineType": "sports",
+        "ingredients": {
+            0: {
+                "food": "chicken",
+            }
+        }
     }
 ]
 
@@ -51,6 +56,7 @@ def test_meal_create():
     assert meal.link == "link_to_recipe"
     assert meal.diet_labels == ["delicious"]
     assert meal.health_labels == ["good"]
+    assert meal.ingredients == ["chicken"]
 
 
 def test_calculate_calories_per_portion():
