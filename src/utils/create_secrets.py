@@ -42,7 +42,3 @@ def create_secrets():
     with open(secrets_path, "w") as secrets:
         json.dump(secrets_data, secrets, indent=4)
     print(f"Data has been written to {secrets_path}")
-
-
-if __name__ == "__main__":
-    check_if_secrets_exists()
