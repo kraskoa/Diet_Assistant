@@ -6,14 +6,10 @@ mock_meals_list = [
         "label": "Chicken breast",
         "yield": 2,
         "calories": 505,
-        "weight": 550,
+        "totalWeight": 550,
         "shareAs": "link_to_recipe",
-        "dietLabels": {
-            1: "delicious"
-        },
-        "healthLabels": {
-            1: "good"
-        },
+        "dietLabels": ["delicious"],
+        "healthLabels": ["good"],
         "mealType": "dinner",
         "totalNutrients": {
             "FAT": {
@@ -38,11 +34,7 @@ mock_meals_list = [
             }
         },
         "cuisineType": "sports",
-        "ingredients": {
-            0: {
-                "food": "chicken",
-            }
-        }
+        "ingredients": [{"food": "chicken"}]
     }
 ]
 

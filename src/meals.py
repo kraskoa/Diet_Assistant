@@ -12,15 +12,15 @@ class Meal:
         self._name = recipe_data["label"]
         self._portions = recipe_data["yield"]
         self._calories = recipe_data["calories"]
-        self._weight = recipe_data["weight"]
+        self._weight = recipe_data["totalWeight"]
         self._link = recipe_data["shareAs"]
-        self.diet_labels = list(recipe_data["dietLabels"].values())
-        self.health_labels = list(recipe_data["healthLabels"].values())
+        self.diet_labels = recipe_data["dietLabels"]
+        self.health_labels = recipe_data["healthLabels"]
         self.meal_type = recipe_data["mealType"]
         self.nutrients = recipe_data["totalNutrients"]
         self.cuisine_type = recipe_data["cuisineType"]
         ingredients = []
-        for entry in recipe_data["ingredients"].values():
+        for entry in recipe_data["ingredients"]:
             ingredients.append(entry["food"])
         self.ingredients = ingredients
 
