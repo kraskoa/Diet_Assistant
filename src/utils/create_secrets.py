@@ -2,7 +2,7 @@ from pathlib import Path
 import json
 
 
-root_path = Path(__file__).resolve().parent.parent
+root_path = Path(__file__).resolve().parent.parent.parent
 secrets_path = root_path / "secrets.json"
 
 
@@ -29,7 +29,7 @@ def create_secrets():
     """
     Function that creates a new secrets.json file based on user input
     """
-    secrets_data = {"url": "https://api.edamam.com/api/recipes/v2?type=public&{query}&app_id={app_id}&app_key={app_key}&{diet}&{cuisineType}&{mealType}"}
+    secrets_data = {"url": "https://api.edamam.com/api/recipes/v2?type=public&{query}&app_id={app_id}&app_key={app_key}&{diet}&{cuisineType}&mealType={mealType}"}
     msg = "Once you've created an account with Edamam and a Recipe Search API"
     msg += " application please keep the App Key and App ID handy"
     print(msg)
@@ -42,3 +42,7 @@ def create_secrets():
     with open(secrets_path, "w") as secrets:
         json.dump(secrets_data, secrets, indent=4)
     print(f"Data has been written to {secrets_path}")
+
+
+if __name__ == "__main__":
+    check_if_secrets_exists()
