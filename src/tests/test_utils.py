@@ -13,5 +13,5 @@ secrets = load_secrets("secrets.json")
 def test_get_meals():
     list_of_meals_objects = get_meals(secrets, "Lunch", cuisineType="Asian")
     assert len(list_of_meals_objects) == 20
-    assert list_of_meals_objects[0].meal_type == "Lunch"
-    assert list_of_meals_objects[0].cuisine_type == "Asian"
+    assert "Lunch".lower() in list_of_meals_objects[0].meal_type[0].split('/')
+    assert "Asian".lower() in list_of_meals_objects[0].cuisine_type
