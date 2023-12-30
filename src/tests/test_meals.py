@@ -10,7 +10,7 @@ mock_meals_list = [
         "shareAs": "link_to_recipe",
         "dietLabels": ["delicious"],
         "healthLabels": ["good"],
-        "mealType": "dinner",
+        "mealType": ["dinner"],
         "totalNutrients": {
             "FAT": {
                 "label": "Fat",
@@ -33,7 +33,7 @@ mock_meals_list = [
                 "quantity": 0
             }
         },
-        "cuisineType": "sports",
+        "cuisineType": ["sports"],
         "ingredients": [{"food": "chicken"}]
     }
 ]
