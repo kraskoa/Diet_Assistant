@@ -1,6 +1,5 @@
 from .utils.get_meals import get_meals
 import random
-import sys
 
 
 class Day:
@@ -66,25 +65,24 @@ class Day:
         for meal in self._meals.values():
             for nutrient in meal.calculate_nutrients("portion").items():
                 daily_nutrients[nutrient[0]] += nutrient[1]
+        daily_nutrients = {
+            key: round(value, 2) for key, value in daily_nutrients.items()
+            }
         return daily_nutrients
 
-    def create_menu(self, secrets, max_calories: int = sys.maxsize, **kwargs):
+    def create_menu(self, secrets, **kwargs):
         for meal in self._meals.keys():
             meals_list = get_meals(secrets, meal, **kwargs)
             self._meals[meal] = random.choice(meals_list)
 
 
-if __name__ == "__main__":
-    d = Day(5)
-    secrets = {
-        "url": "https://api.edamam.com/api/recipes/v2?type=public&app_id={app_id}&app_key={app_key}&{diet}&{cuisineType}&mealType={mealType}",
-        "app_id": "350da553",
-        "app_key": "0e1f552796edd4134e2efadf38def7d1"
-    }
-    d.create_menu(secrets)
-    print(d.calculate_total_calories())
-    print(d.calculate_total_nutrients())
-    for item in d.meals.items():
-        print(f"{item[0]}: {item[1]}")
-
-# dodac pole Excluded, dishType do get_meals i do Meal
+# if __name__ == "__main__":
+#     d = Day(5)
+#     secrets = {
+#         "url": "https://api.edamam.com/api/recipes/v2?type=public&app_id={app_id}&app_key={app_key}&{diet}&{cuisineType}&mealType={mealType}",
+#         "app_id": "350da553",
+#         "app_key": "0e1f552796edd4134e2efadf38def7d1"
+#     }
+#     print(d.meals.values())
+#     d.create_menu(secrets)
+#     print(d.meals.values())
