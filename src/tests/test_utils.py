@@ -1,5 +1,7 @@
 from ..utils.get_meals import get_meals
 from ..utils.load_secrets import load_secrets
+from ..errors import NoRecipesFoundError
+import pytest
 
 
 secrets = load_secrets("secrets.json")
@@ -42,3 +44,8 @@ def test_get_meals_calories():
     for meal in list_of_meals_objects:
         all_meals_calories.append(meal.calculate_calories("portion"))
     assert max(all_meals_calories) <= 500
+
+
+def test_get_meals_none_found():
+    with pytest.raises(NoRecipesFoundError):
+        get_meals(secrets, "Teatime", cuisineType="Asian", calories=20)

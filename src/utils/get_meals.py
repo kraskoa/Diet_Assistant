@@ -1,7 +1,6 @@
 from ..meals import Meal
-
+from ..errors import NoRecipesFoundError
 import requests
-import random
 
 
 def get_meals(secrets: dict, meal_type: str, **kwargs) -> list:
@@ -17,9 +16,6 @@ def get_meals(secrets: dict, meal_type: str, **kwargs) -> list:
         list: a list of Meal objects
     """
     defaults = {"diet": "", "cuisineType": "", "calories": ""}
-    # A list of all sensible dish types, without it the API returns many
-    # drinks/cocktails recipes which are unsuitable for the project
-    dish_types = ["Main course", "Sandwiches"]
     exclusions = ""
     list_of_meals_objects = []
     for arg in kwargs.items():
@@ -29,7 +25,9 @@ def get_meals(secrets: dict, meal_type: str, **kwargs) -> list:
         else:
             defaults[arg[0]] = f"{arg[0]}={arg[1]}"
 
-    chosen_dish_type = random.choice(dish_types)
+    # I've hard-coded the dishType to be Main course, since other
+    # dishTypes were pointless to use (drinks, cocktails) or weren't
+    # represented by sufficient amount of recipes (sandwiches, desserts)
     data = requests.get(secrets["url"].format(
         app_id=secrets["app_id"],
         app_key=secrets["app_key"],
@@ -37,11 +35,23 @@ def get_meals(secrets: dict, meal_type: str, **kwargs) -> list:
         cuisineType=defaults['cuisineType'],
         calories=defaults['calories'],
         mealType=meal_type,
-        dishType=chosen_dish_type,
+        dishType="Main course",
         excluded=exclusions
-    )).json()["hits"]
+    )).json()
 
-    for hit in data:
+    if data["count"] == 0:
+        raise NoRecipesFoundError
+
+    for hit in data["hits"]:
         list_of_meals_objects.append(Meal(hit["recipe"]))
 
     return list_of_meals_objects
+
+
+# if __name__ == "__main__":
+#     secrets = {
+#         "url": "https://api.edamam.com/api/recipes/v2?type=public&app_id={app_id}&app_key={app_key}&{diet}&{cuisineType}&mealType={mealType}",
+#         "app_id": "350da553",
+#         "app_key": "0e1f552796edd4134e2efadf38def7d1"
+#     }
+#     print(get_meals(secrets, "Lunch", cuisineType="Asian")[0])
