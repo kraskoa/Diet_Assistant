@@ -20,5 +20,6 @@ def test_day_wrong_value():
 
 def test_random_menu():
     day = Day(5)
-    day.create_menu(secrets)
+    assert None in day.meals.values()
+    day.create_menu(secrets, diet="high-protein", cuisineType="American")
     assert None not in day.meals.values()
