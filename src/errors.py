@@ -1,0 +1,2 @@
+class NoRecipesFoundError(Exception):
+    pass
