@@ -1,5 +1,6 @@
 from ..utils.load_secrets import load_secrets
 from ..days import Day
+from ..errors import NoRecipesFoundError
 import pytest
 
 
@@ -18,8 +19,14 @@ def test_day_wrong_value():
         Day(6)
 
 
-def test_random_menu():
+def test_create_menu():
     day = Day(5)
     assert None in day.meals.values()
     day.create_menu(secrets, diet="high-protein", cuisineType="American")
     assert None not in day.meals.values()
+
+
+def test_create_menu_no_recipes():
+    day = Day(5)
+    with pytest.raises(NoRecipesFoundError):
+        day.create_menu(secrets, calories=1)
