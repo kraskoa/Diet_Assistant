@@ -17,7 +17,7 @@ class Day:
         self._number_of_meals = number_of_meals
         if self._number_of_meals == 3:
             none_dict.pop("Snack")
-            none_dict.pop("Teatlime")
+            none_dict.pop("Teatime")
             self._meals = none_dict
         elif self._number_of_meals == 4:
             none_dict.pop("Teatime")
@@ -70,7 +70,13 @@ class Day:
             }
         return daily_nutrients
 
-    def create_menu(self, secrets, **kwargs):
+    def create_menu(self, secrets: dict, **kwargs):
+        """
+        Function that creates a menu for the day using data from API
+
+        Args:
+            secrets (dict): a dictionary with credentials for the API
+        """
         for meal in self._meals.keys():
             meals_list = get_meals(secrets, meal, **kwargs)
             self._meals[meal] = random.choice(meals_list)
