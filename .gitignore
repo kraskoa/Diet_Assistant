@@ -1,5 +1,7 @@
 secrets.json
 
+.vscode
+
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,python,linux,windows,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,python,linux,windows,macos
 
