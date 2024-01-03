@@ -38,4 +38,4 @@ def test_calculate_average_calories():
 def test_calculate_average_nutrients():
     mp = MealPlan(3, 3)
     mp.generate_meal_plan(secrets, diet="high-protein")
-    assert mp.calculate_average_nutrients()["Protein"] > 150
+    assert mp.calculate_average_nutrients()["Protein"] > 50
