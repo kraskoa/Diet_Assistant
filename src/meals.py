@@ -45,10 +45,7 @@ class Meal:
         return self._link
 
     def __str__(self):
-        result = f"The {self.name} meal weighs {self.weight} grams total"
-        result += f" and has {self.calculate_calories('portion')} "
-        result += "calories per portion"
-        return result
+        return f"{self.name}\n{self.link}"
 
     def calculate_calories(self, scale: str) -> float:
         """
