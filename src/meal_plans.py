@@ -81,7 +81,7 @@ class MealPlan():
         return average_nutrients
 
     def __str__(self):
-        res = "Diet summary: \n"
+        res = "Your Diet summary: \n"
         cals = self.calculate_average_calories()
         res += f"\tAverage daily caloric intake for the whole diet: {cals}kcal"
         res += "\n\tAverage daily nutritional values for the whole diet: \n"
