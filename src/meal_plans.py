@@ -53,7 +53,7 @@ class MealPlan():
         total_calories = 0
         for day in self._days_of_eating:
             total_calories += day.calculate_total_calories()
-        return total_calories / self._number_of_days
+        return round(total_calories / self._number_of_days, 2)
 
     def calculate_average_nutrients(self) -> dict:
         """
@@ -80,14 +80,15 @@ class MealPlan():
             }
         return average_nutrients
 
-
-# if __name__ == "__main__":
-#     secrets = {
-#         "url": "https://api.edamam.com/api/recipes/v2?type=public&app_id={app_id}&app_key={app_key}&{diet}&{cuisineType}&mealType={mealType}&dishType={dishType}&{calories}&{excluded}",
-#         "app_id": "350da553",
-#         "app_key": "0e1f552796edd4134e2efadf38def7d1"
-#     }
-#     mp = MealPlan(5, 3)
-#     mp.generate_meal_plan(secrets)
-#     print(f"{mp.calculate_average_calories()} calories")
-#     print(f"{mp.calculate_average_nutrients()} nutrients")
+    def __str__(self):
+        res = "Diet summary: \n"
+        cals = self.calculate_average_calories()
+        res += f"\tAverage daily caloric intake for the whole diet: {cals}kcal"
+        res += "\n\tAverage daily nutritional values for the whole diet: \n"
+        for label, quantity in self.calculate_average_nutrients().items():
+            res += f"\t\t{label}: {quantity}g\n"
+        res += "\n\n"
+        for number, day in enumerate(self._days_of_eating):
+            res += f"Day {number + 1}\n"
+            res += f"{day}\n\n\n"
+        return res
