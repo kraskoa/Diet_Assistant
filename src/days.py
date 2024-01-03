@@ -78,8 +78,8 @@ class Day:
             res += f"{meal_padded}{meal_name}\n\n"
         res += "\n"
         for label, quantity in self.calculate_total_nutrients().items():
-            res += f"\t{label}: {quantity}\n"
-        res += f"\tCalories: {self.calculate_total_calories()}\n"
+            res += f"\t{label}: {quantity}g\n"
+        res += f"\tCalories: {self.calculate_total_calories()}kcal\n"
         return res
 
     def create_menu(self, secrets: dict, **kwargs):
@@ -92,19 +92,3 @@ class Day:
         for meal in self._meals.keys():
             meals_list = get_meals(secrets, meal, **kwargs)
             self._meals[meal] = random.choice(meals_list)
-
-
-if __name__ == "__main__":
-    d = Day(5)
-    secrets = {
-        "url": "https://api.edamam.com/api/recipes/v2?type=public&app_id={app_id}&app_key={app_key}&{diet}&{cuisineType}&mealType={mealType}&dishType={dishType}&{calories}&{excluded}",
-        "app_id": "350da553",
-        "app_key": "0e1f552796edd4134e2efadf38def7d1"
-    }
-    print(d.meals.values())
-    d.create_menu(secrets, diet="balanced")
-    print(f"Total calories: {d.calculate_total_calories()}")
-    print(f"Total nutrients: {d.calculate_total_nutrients()}")
-    for meal in d.meals.items():
-        print(f"{meal[0]}: {meal[1]}")
-    print(f"\n\n\n\n{d}")
