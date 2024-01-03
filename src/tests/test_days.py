@@ -26,6 +26,24 @@ def test_create_menu():
     assert None not in day.meals.values()
 
 
+def test_calculate_total_calories():
+    day = Day(3)
+    day.create_menu(secrets, calories=300)
+    total = 0
+    for meal in day.meals.values():
+        total += meal.calculate_calories("portion")
+    assert total <= 900
+
+
+def test_calculate_total_nutrients():
+    day = Day(3)
+    day.create_menu(secrets, diet="high-protein")
+    total = 0
+    for meal in day.meals.values():
+        total += meal.calculate_nutrients("portion")["Protein"]
+    assert total > 50
+
+
 def test_create_menu_no_recipes():
     day = Day(5)
     with pytest.raises(NoRecipesFoundError):
