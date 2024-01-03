@@ -45,7 +45,7 @@ class Day:
         daily_calories = 0
         for meal in self._meals.values():
             daily_calories += meal.calculate_calories("portion")
-        return daily_calories
+        return round(daily_calories, 2)
 
     def calculate_total_nutrients(self) -> dict:
         """
@@ -70,6 +70,18 @@ class Day:
             }
         return daily_nutrients
 
+    def __str__(self):
+        res = ""
+        meal_len = 11
+        for meal, meal_name in self._meals.items():
+            meal_padded = meal.ljust(meal_len) + ": "
+            res += f"{meal_padded}{meal_name}\n\n"
+        res += "\n"
+        for label, quantity in self.calculate_total_nutrients().items():
+            res += f"\t{label}: {quantity}\n"
+        res += f"\tCalories: {self.calculate_total_calories()}\n"
+        return res
+
     def create_menu(self, secrets: dict, **kwargs):
         """
         Function that creates a menu for the day using data from API
@@ -82,16 +94,17 @@ class Day:
             self._meals[meal] = random.choice(meals_list)
 
 
-# if __name__ == "__main__":
-#     d = Day(5)
-#     secrets = {
-#         "url": "https://api.edamam.com/api/recipes/v2?type=public&app_id={app_id}&app_key={app_key}&{diet}&{cuisineType}&mealType={mealType}&dishType={dishType}&{calories}&{excluded}",
-#         "app_id": "350da553",
-#         "app_key": "0e1f552796edd4134e2efadf38def7d1"
-#     }
-#     print(d.meals.values())
-#     d.create_menu(secrets, diet="balanced")
-#     print(f"Total calories: {d.calculate_total_calories()}")
-#     print(f"Total nutrients: {d.calculate_total_nutrients()}")
-#     for meal in d.meals.items():
-#         print(f"{meal[0]}: {meal[1]}")
+if __name__ == "__main__":
+    d = Day(5)
+    secrets = {
+        "url": "https://api.edamam.com/api/recipes/v2?type=public&app_id={app_id}&app_key={app_key}&{diet}&{cuisineType}&mealType={mealType}&dishType={dishType}&{calories}&{excluded}",
+        "app_id": "350da553",
+        "app_key": "0e1f552796edd4134e2efadf38def7d1"
+    }
+    print(d.meals.values())
+    d.create_menu(secrets, diet="balanced")
+    print(f"Total calories: {d.calculate_total_calories()}")
+    print(f"Total nutrients: {d.calculate_total_nutrients()}")
+    for meal in d.meals.items():
+        print(f"{meal[0]}: {meal[1]}")
+    print(f"\n\n\n\n{d}")
