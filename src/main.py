@@ -1,4 +1,4 @@
-# from .utils.create_secrets import check_if_secrets_exists
+from .utils.create_secrets import check_if_secrets_exists
 from .utils.load_secrets import load_secrets
 from .meal_plans import MealPlan
 from .errors import (
@@ -129,7 +129,9 @@ def clear_screen():
 
 
 def main():
-    # check_if_secrets_exists()
+    clear_screen()
+    check_if_secrets_exists()
+    clear_screen()
     secrets = load_secrets("secrets.json")
 
     defaults = {
@@ -164,8 +166,9 @@ def main():
     try:
         meal_plan.generate_meal_plan(secrets, **input_dict)
     except NoRecipesFoundError:
-        msg = "Unfortunately there aren't sufficient meals that meet"
-        msg += " your needs\nPlease try again using different values"
+        msg = "Unfortunately there aren't enough meals that meet"
+        msg += " your needs\nPlease try running the program again"
+        msg += " using different values"
         print(msg)
         time.sleep(5)
         main()
