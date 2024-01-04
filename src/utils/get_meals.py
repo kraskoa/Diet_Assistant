@@ -46,12 +46,3 @@ def get_meals(secrets: dict, meal_type: str, **kwargs) -> list:
         list_of_meals_objects.append(Meal(hit["recipe"]))
 
     return list_of_meals_objects
-
-
-# if __name__ == "__main__":
-#     secrets = {
-#         "url": "https://api.edamam.com/api/recipes/v2?type=public&app_id={app_id}&app_key={app_key}&{diet}&{cuisineType}&mealType={mealType}&dishType={dishType}&{calories}&{excluded}",
-#         "app_id": "350da553",
-#         "app_key": "0e1f552796edd4134e2efadf38def7d1"
-#     }
-#     print(get_meals(secrets, "Lunch", cuisineType="Asian", calories=1))
