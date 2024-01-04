@@ -1,9 +1,10 @@
 # from .utils.create_secrets import check_if_secrets_exists
-# from .utils.load_secrets import load_secrets
-# from .meal_plans import MealPlan
+from .utils.load_secrets import load_secrets
+from .meal_plans import MealPlan
 from .errors import (
     ChoiceNotAvailableError
 )
+import os
 
 
 available_diets = {
@@ -39,18 +40,22 @@ def write_to_output_file(data):
         output_file.write(data)
 
 
-def main():
-    # check_if_secrets_exists()
-    # secrets = load_secrets("secrets.json")
+def choose_num_of_meals() -> int:
+    num_of_meals_prompt = "\n\nHow many meals a day would you like to have in "
+    num_of_meals_prompt += "your diet? (you can choose between 3 and 5): "
+    num_of_meals = int(input(num_of_meals_prompt))
+    return num_of_meals
 
-    defaults = {
-        "diet": "",
-        "cuisineType": "",
-        "excluded": [],
-        "calories": 0
-    }
-    input_dict = defaults.copy()
 
+def choose_num_of_days() -> int:
+    num_of_days_prompt = "\n\nHow long would you like you like one block of  "
+    num_of_days_prompt += "your diet to be? "
+    num_of_days_prompt += "(choose a number of days, max is 14): "
+    num_of_days = int(input(num_of_days_prompt))
+    return num_of_days
+
+
+def choose_diet(defaults: dict, input_dict: dict):
     print("\n\nAvailable diets:")
     for number, diet in available_diets.items():
         print(f"{number}: {diet}")
@@ -66,8 +71,9 @@ def main():
             input_dict["diet"] = chosen_diet.lower()
         else:
             raise ChoiceNotAvailableError
-    print(input_dict["diet"])
 
+
+def choose_cuisine_type(defaults: dict, input_dict: dict):
     print("\n\nAvailable cuisine types:")
     for number, cuisine in cuisine_types.items():
         print(f"{number}: {cuisine}")
@@ -83,8 +89,61 @@ def main():
             input_dict["cuisineType"] = chosen_cuisine.title()
         else:
             raise ChoiceNotAvailableError
-    print(input_dict["cuisineType"])
-    # write_to_output_file(data)
+
+
+def get_ingrediets_to_exclude(defaults: dict, input_dict: dict):
+    prompt = "Are there any food ingredients you'd like to exclude? y/n: "
+    answer = input(prompt)
+    if answer.lower() == "y" or answer.lower() == "yes":
+        exclude_prompt = "Okay, please enter their names one by one, "
+        exclude_prompt += "separated by spaces. When you're done just "
+        exclude_prompt += "press Enter"
+        excluded = input(exclude_prompt).split()
+    elif answer.lower() == "n" or answer.lower() == "no":
+        excluded = []
+    else:
+        print("Incorrect input!\n")
+        get_ingrediets_to_exclude()
+    input_dict["excluded"] = excluded
+
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+
+def main():
+    # check_if_secrets_exists()
+    secrets = load_secrets("secrets.json")
+
+    defaults = {
+        "diet": "",
+        "cuisineType": "",
+        "excluded": [],
+        "calories": 0
+    }
+    input_dict = defaults.copy()
+
+    clear_screen()
+    num_of_meals = choose_num_of_meals()
+    clear_screen()
+    num_of_days = choose_num_of_days()
+    clear_screen()
+
+    choose_diet(defaults, input_dict)
+    clear_screen()
+    choose_cuisine_type(defaults, input_dict)
+    clear_screen()
+    get_ingrediets_to_exclude(defaults, input_dict)
+    clear_screen()
+
+    meal_plan = MealPlan(num_of_days, num_of_meals)
+
+    for key, value in defaults.items():
+        if input_dict[key] == value:
+            input_dict.pop(key)
+
+    meal_plan.generate_meal_plan(secrets, **input_dict)
+    print(meal_plan)
 
 
 if __name__ == "__main__":
