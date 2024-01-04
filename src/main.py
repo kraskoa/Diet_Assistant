@@ -110,17 +110,18 @@ def get_ingrediets_to_exclude(input_dict: dict):
     input_dict["excluded"] = excluded
 
 
-def get_max_calories_per_meal(input_dict: dict):
-    prompt = "Would you like to limit the caloric value per meal? y/n: "
+def get_max_calories_per_meal(input_dict: dict, num_of_meals: int):
+    prompt = "Would you like to limit the maximum daily caloric value? y/n: "
     answer = input(prompt)
     if answer.lower() == "y" or answer.lower() == "yes":
         max_cals = int(input("Please enter the maximum value: "))
+        calories = max_cals / num_of_meals
     elif answer.lower() == "n" or answer.lower() == "no":
-        max_cals = 0
+        calories = 0
     else:
         print("Incorrect input!\n")
         get_max_calories_per_meal()
-    input_dict["calories"] = max_cals
+    input_dict["calories"] = calories
 
 
 def clear_screen():
@@ -151,7 +152,7 @@ def main():
     clear_screen()
     get_ingrediets_to_exclude(input_dict)
     clear_screen()
-    get_max_calories_per_meal(input_dict)
+    get_max_calories_per_meal(input_dict, num_of_meals)
     clear_screen()
 
     meal_plan = MealPlan(num_of_days, num_of_meals)
