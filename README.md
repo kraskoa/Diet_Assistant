@@ -1,4 +1,4 @@
-# Project PIPR 2023Z
+# Project PIPR 2023Z - Warsaw University of Technology
 
 ## Diet assistant
 
